@@ -5,25 +5,38 @@ token: dev-token
 
 services:
   - id: payments-api
-    name: Payments API
+    name: payments-api
     versions:
-      - id: 2.4.1
-        name: 2.4.1
+      - id: v2.4.1
+        name: v2.4.1
         createdAt: "2026-09-01T08:00:00Z"
-      - id: 2.4.0
-        name: 2.4.0
+      - id: v2.4.0
+        name: v2.4.0
         createdAt: "2026-08-20T08:00:00Z"
 
   - id: orders-api
-    name: Orders API
+    name: orders-api
     versions:
-      - id: 1.8.0
-        name: 1.8.0
+      - id: v1.8.0
+        name: v1.8.0
         createdAt: "2026-08-28T08:00:00Z"
 
   - id: customer-portal
-    name: Customer Portal
+    name: customer-portal
     versions:
-      - id: "2026.09"
-        name: September 2026
+      - id: "v26.09"
+        name: "v26.09"
         createdAt: "2026-09-01T01:00:00Z"
+      - id: "v26.10"
+        name: "v26.10"
+        createdAt: "2026-09-01T02:00:00Z"
+
+  - id: users-api
+    name: users-api
+    versions:
+      - id: "v26.09"
+        name: "v26.09"
+        createdAt: "2026-09-01T01:00:00Z"
+      - id: "v26.10"
+        name: "v26.10"
+        createdAt: "2026-09-01T02:00:00Z"
