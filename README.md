@@ -36,6 +36,14 @@ docker build -t version-source .
 docker run --rm -p 8080:8080 version-source
 ```
 
+代码推送到 GitHub 后，GitHub Actions 会自动构建 `linux/amd64` 和
+`linux/arm64` 镜像并发布到 `ghcr.io/figwood/version-source`。默认分支还会生成
+`latest` 标签，版本标签（如 `v1.2.3`）会生成 `1.2.3` 和 `1.2` 标签。拉取镜像：
+
+```bash
+docker pull ghcr.io/figwood/version-source:latest
+```
+
 挂载自定义数据文件：
 
 ```bash
