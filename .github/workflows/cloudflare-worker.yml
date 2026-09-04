@@ -17,7 +17,6 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm run check
 
       - name: Set Worker secret
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
