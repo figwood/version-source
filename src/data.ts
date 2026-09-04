@@ -40,6 +40,15 @@ export const catalog = [
       { id: "v26.13", name: "v26.13", createdAt: "2026-09-01T03:00:00Z" },
     ],
   },
+  {
+    id: "admin-api",
+    name: "admin-api",
+    versions: [
+      { id: "v26.29", name: "v26.29", createdAt: "2026-09-01T01:00:00Z" },
+      { id: "v26.22", name: "v26.22", createdAt: "2026-09-01T02:00:00Z" },
+      { id: "v26.23", name: "v26.23", createdAt: "2026-09-01T03:00:00Z" },
+    ],
+  },
 ] as const satisfies Catalog;
 
 validateCatalog(catalog);
