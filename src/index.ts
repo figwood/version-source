@@ -18,7 +18,7 @@ export function createWorker(services: Catalog): Worker {
       const url = new URL(request.url);
       if (url.pathname === "/catalog/v1/health") return json({ status: "ok" });
 
-      const token = env.MOCK_CATALOG_TOKEN?.trim();
+      const token = env.MOCK_CATALOG_TOKEN?.trim()?env.MOCK_CATALOG_TOKEN?.trim():"dev-token";
       if (!token || request.headers.get("Authorization") !== `Bearer ${token}`) {
         return json({ error: "unauthorized" }, 401);
       }
