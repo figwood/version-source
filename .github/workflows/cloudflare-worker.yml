@@ -1,0 +1,35 @@
+name: Validate and deploy Worker
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  worker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+
+      - name: Set Worker secret
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: printf '%s' "$MOCK_CATALOG_TOKEN" | npx wrangler secret put MOCK_CATALOG_TOKEN
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          MOCK_CATALOG_TOKEN: ${{ secrets.MOCK_CATALOG_TOKEN }}
+
+      - name: Deploy Worker
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

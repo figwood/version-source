@@ -36,7 +36,8 @@ export const catalog = [
     name: "stores-api",
     versions: [
       { id: "v26.09", name: "v26.09", createdAt: "2026-09-01T01:00:00Z" },
-      { id: "v26.12", name: "v26.10", createdAt: "2026-09-01T02:00:00Z" },
+      { id: "v26.12", name: "v26.12", createdAt: "2026-09-01T02:00:00Z" },
+      { id: "v26.13", name: "v26.13", createdAt: "2026-09-01T03:00:00Z" },
     ],
   },
 ] as const satisfies Catalog;
