@@ -44,9 +44,16 @@ export const catalog = [
     id: "admin-api",
     name: "admin-api",
     versions: [
-      { id: "v26.29", name: "v26.29", createdAt: "2026-09-01T01:00:00Z" },
+      { id: "v26.20", name: "v26.20", createdAt: "2026-09-01T01:00:00Z" },
       { id: "v26.22", name: "v26.22", createdAt: "2026-09-01T02:00:00Z" },
       { id: "v26.23", name: "v26.23", createdAt: "2026-09-01T03:00:00Z" },
+      { id: "v26.24", name: "v26.24", createdAt: "2026-09-01T01:00:00Z" },
+      { id: "v26.25", name: "v26.25", createdAt: "2026-09-01T02:00:00Z" },
+      { id: "v26.26", name: "v26.26", createdAt: "2026-09-01T03:00:00Z" },
+      { id: "v26.27", name: "v26.27", createdAt: "2026-09-01T04:00:00Z" },
+      { id: "v26.28", name: "v26.28", createdAt: "2026-09-01T05:00:00Z" },
+      { id: "v26.29", name: "v26.29", createdAt: "2026-09-01T06:00:00Z" },
+      { id: "v26.30", name: "v26.30", createdAt: "2026-09-01T07:00:00Z" },
     ],
   },
 ] as const satisfies Catalog;
