@@ -19,5 +19,8 @@ export type Catalog = readonly CatalogService[];
 
 export interface ListResponse<T> {
   readonly items: readonly T[];
-  readonly nextCursor: string | null;
+  readonly page: number;
+  readonly pageSize: number;
+  readonly total: number;
+  readonly totalPages: number;
 }

@@ -24,7 +24,7 @@ export function createWorker(services: Catalog): Worker {
       }
 
       if (url.pathname === "/catalog/v1/services") {
-        const options = parseListOptions(url);
+        const options = parseListOptions(url, 50);
         return options
           ? json(listServices(services, options))
           : json({ error: "invalid_pagination" }, 400);
@@ -43,7 +43,7 @@ export function createWorker(services: Catalog): Worker {
       const service = servicesById.get(serviceId);
       if (!service) return json({ error: "service_not_found" }, 404);
 
-      const options = parseListOptions(url);
+      const options = parseListOptions(url, 10);
       return options
         ? json(listVersions(service, options))
         : json({ error: "invalid_pagination" }, 400);

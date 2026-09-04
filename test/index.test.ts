@@ -31,11 +31,37 @@ describe("catalog worker", () => {
   });
 
   it("lists filtered and paginated services", async () => {
-    const response = await request("/catalog/v1/services?query=api&limit=1", "secret");
+    const response = await request("/catalog/v1/services?query=api&pageSize=1", "secret");
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({
       items: [{ id: "payments-api", name: "payments-api" }],
-      nextCursor: "1",
+      page: 1,
+      pageSize: 1,
+      total: 5,
+      totalPages: 5,
+    });
+  });
+
+  it("defaults version pages to 10 items", async () => {
+    const versions = Array.from({ length: 11 }, (_, index) => ({
+      id: `v${index + 1}`,
+      name: `Version ${index + 1}`,
+    }));
+    const versionWorker = createWorker([{ id: "service", name: "Service", versions }]);
+    const response = await versionWorker.fetch(
+      new Request("https://example.test/catalog/v1/services/service/versions", {
+        headers: { Authorization: "Bearer secret" },
+      }),
+      env,
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({
+      items: versions.slice(0, 10),
+      page: 1,
+      pageSize: 10,
+      total: 11,
+      totalPages: 2,
     });
   });
 
@@ -48,7 +74,13 @@ describe("catalog worker", () => {
       env,
     );
     expect(response.status).toBe(200);
-    expect(await response.json()).toEqual({ items: [{ id: "v1", name: "V1" }], nextCursor: null });
+    expect(await response.json()).toEqual({
+      items: [{ id: "v1", name: "V1" }],
+      page: 1,
+      pageSize: 10,
+      total: 1,
+      totalPages: 1,
+    });
   });
 
   it("distinguishes unknown services, bad pagination, and unknown routes", async () => {
@@ -56,7 +88,7 @@ describe("catalog worker", () => {
     expect(missing.status).toBe(404);
     expect(await missing.json()).toEqual({ error: "service_not_found" });
 
-    const invalid = await request("/catalog/v1/services?cursor=-1", "secret");
+    const invalid = await request("/catalog/v1/services?page=0", "secret");
     expect(invalid.status).toBe(400);
     expect(await invalid.json()).toEqual({ error: "invalid_pagination" });
 

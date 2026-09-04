@@ -18,11 +18,15 @@ npm run dev
 curl http://localhost:8787/catalog/v1/health
 
 curl -H 'Authorization: Bearer replace-me' \
-  'http://localhost:8787/catalog/v1/services?query=api&limit=2'
+  'http://localhost:8787/catalog/v1/services?query=api&page=1&pageSize=2'
 
 curl -H 'Authorization: Bearer replace-me' \
-  'http://localhost:8787/catalog/v1/services/payments-api/versions?query=2.4&limit=50'
+  'http://localhost:8787/catalog/v1/services/payments-api/versions?query=2.4&page=1&pageSize=10'
 ```
+
+两个查询接口都使用从 1 开始的 `page` 和 `pageSize` 分页，并返回
+`items`、`page`、`pageSize`、`total`、`totalPages`。服务查询的默认
+`pageSize` 为 50，版本查询的默认 `pageSize` 为 10；两者最大均为 50。
 
 目录数据直接维护在 `src/data.ts`，修改后重新部署即可。
 
@@ -51,4 +55,3 @@ GitHub Actions 会在 `main` push 校验通过后自动部署。仓库需要配�
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
 - `MOCK_CATALOG_TOKEN`
-

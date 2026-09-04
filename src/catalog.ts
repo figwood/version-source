@@ -10,8 +10,8 @@ const MAX_PAGE_SIZE = 50;
 
 export interface ListOptions {
   readonly query: string;
-  readonly cursor: number;
-  readonly limit: number;
+  readonly page: number;
+  readonly pageSize: number;
 }
 
 export function validateCatalog(services: Catalog): void {
@@ -43,15 +43,20 @@ export function validateCatalog(services: Catalog): void {
   });
 }
 
-export function parseListOptions(url: URL): ListOptions | null {
-  const limit = parseInteger(url.searchParams.get("limit"), 1, MAX_PAGE_SIZE, MAX_PAGE_SIZE);
-  const cursor = parseInteger(url.searchParams.get("cursor"), 0, Number.MAX_SAFE_INTEGER, 0);
-  if (limit === null || cursor === null) return null;
+export function parseListOptions(url: URL, defaultPageSize = MAX_PAGE_SIZE): ListOptions | null {
+  const page = parseInteger(url.searchParams.get("page"), 1, Number.MAX_SAFE_INTEGER, 1);
+  const pageSize = parseInteger(
+    url.searchParams.get("pageSize"),
+    1,
+    MAX_PAGE_SIZE,
+    defaultPageSize,
+  );
+  if (page === null || pageSize === null) return null;
 
   return {
     query: (url.searchParams.get("query") ?? "").trim().toLowerCase(),
-    cursor,
-    limit,
+    page,
+    pageSize,
   };
 }
 
@@ -88,10 +93,14 @@ function matches(item: Service, query: string): boolean {
 }
 
 function page<T>(items: readonly T[], options: ListOptions): ListResponse<T> {
-  const start = Math.min(options.cursor, items.length);
-  const end = Math.min(start + options.limit, items.length);
+  const total = items.length;
+  const start = Math.min((options.page - 1) * options.pageSize, total);
+  const end = Math.min(start + options.pageSize, total);
   return {
     items: items.slice(start, end),
-    nextCursor: end < items.length ? String(end) : null,
+    page: options.page,
+    pageSize: options.pageSize,
+    total,
+    totalPages: Math.ceil(total / options.pageSize),
   };
 }
