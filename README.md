@@ -46,7 +46,7 @@ npx wrangler secret put MOCK_CATALOG_TOKEN
 npm run deploy
 ```
 
-GitHub Actions 会校验所有 push 和 pull request，并在 `main` push 校验通过后自动部署。仓库需要配置三个 Actions Secret：
+GitHub Actions 会在 `main` push 校验通过后自动部署。仓库需要配置三个 Actions Secret：
 
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
