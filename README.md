@@ -52,4 +52,3 @@ GitHub Actions 会校验所有 push 和 pull request，并在 `main` push 校验
 - `CLOUDFLARE_ACCOUNT_ID`
 - `MOCK_CATALOG_TOKEN`
 
-Forge 调用方应使用部署后的 HTTPS Worker 地址。
